@@ -1,6 +1,6 @@
 {
     "name": "schoolist",
-    "version": "0.0.7",
+    "version": "0.1.0",
     "description": "The replacement for long paper entry lists in school!",
     "main": "index.js",
     "scripts": {
