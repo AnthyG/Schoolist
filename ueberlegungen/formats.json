@@ -1,0 +1,73 @@
+// Admins.json
+{
+    "USER_NAME_1": {
+        "pass": "PASSWORD",
+        "name": "NAME",
+        "isMaster": true, // If this Admin can create new Classes
+        "classes": "*" // EVERY Class
+    },
+    "USER_NAME_2": {
+        "pass": "PASSWORD",
+        "name": "NAME",
+        "isMaster": true, // If this Admin can create new Classes
+        "classes": [ // Defined Classes
+            "CLASS_1",
+            "CLASS_2",
+            "CLASS_3"
+            // ...
+        ]
+    },
+    "USER_NAME_3": {
+        "pass": "PASSWORD",
+        "name": "NAME",
+        "isMaster": true, // If this Admin can create new Classes
+        "classes": [ // EVERY Class minus the ones defined below [0] = "*"
+            "*",
+            "CLASS_1",
+            "CLASS_2",
+            "CLASS_3"
+            // ...
+        ]
+    }
+}
+
+// Class_XYZ.json
+{
+    "events": {
+        "EVENT_1": "EVENT_HASH",
+        "EVENT_2": "EVENT_HASH",
+        "EVENT_3": "EVENT_HASH"
+            // ...
+    },
+    "USER_NAME_1": {
+        "pass": "PASSWORD",
+        "name": "NAME"
+    }
+    // ...
+}
+
+// Event_XYZ.json
+{
+    "title": "TITLE",
+    "desc": "DESCRIPTION",
+    "maxents": 28, // Number of Entries for this Event
+    "entries": {
+        "CLASS_1": [
+            "NAME_1",
+            "NAME_2",
+            "NAME_3"
+            // ...
+        ],
+        // ...
+    }
+}
+
+// Registerer.json
+{
+    "CLASS_1": {
+        "USER_NAME_1": {
+            "pass": "PASSWORD",
+            "name": "NAME"
+        }
+    }
+}
