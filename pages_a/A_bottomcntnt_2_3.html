@@ -1,0 +1,267 @@
+<div id="modalog_eeg" class="modal">
+    <div class="modal-overlay closerer"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <button class="btn btn-clear closerer float-right"></button>
+            <div class="modal-title">Edit Eventgroup</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <form id="eeg-Form" action="/e/{EVENTGROUP_TITLE}" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_title">Title</label>
+                        <input class="form-input" type="text" name="eeg_title" placeholder="Title" value="{EVENTGROUP_TITLE}" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_desc">Description</label>
+                        <textarea class="form-input" name="eeg_desc" placeholder="Description" rows="3" required>{DESCRIPTION}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_selected">Comma-Seperated List of selected Classes</label>
+                        <input class="form-input" type="text" name="eeg_selected" placeholder="Class_1, Class_2,.." value="{SELECTED_CLASSES}" />
+                        <!--
+                        <label class="form-label" for="eeg_selected">Selected Classes</label>
+                        <div name="eeg_selected" class="form-autocomplete">
+                            <div class="form-autocomplete-input">
+                                <div class="chip-sm">
+                                    <span class="chip-name">Tony Stark</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Thor Odinson</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Steve Rogers</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Bruce Banner</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Natasha Romanoff</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <input class="form-input" type="text" placeholder="Enter Class-name here">
+                            </div>
+                        </div>
+                        <label class="form-label" for="eeg_available">Available Classes</label>
+                        <div name="eeg_available" class="form-autocomplete">
+                            <div class="form-autocomplete-input">
+                                <div class="chip-sm">
+                                    <span class="chip-name">Tony Stark</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Thor Odinson</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Steve Rogers</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Bruce Banner</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Natasha Romanoff</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                            </div>
+                    </div>-->
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="form-switch">
+                            <input name="eeg_hideit" type="checkbox" />
+                            <i class="form-icon"></i> Hide this
+                        </label>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_tdate">The Date of when the Eventgroup closes entries</label>
+                        <input class="form-input" type="date" name="eeg_tdate" value="{TILL_DATE}" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_maxeents">Max Event-Entries</label>
+                        <input class="form-input" type="number" name="eeg_maxeents" placeholder="Number" value="{MAXEENTS}" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-switch">
+                            <input name="eeg_hideit" type="checkbox" value="{EVENTGROUP_HIDDEN}" />
+                            <i class="form-icon"></i> Hide this
+                        </label>
+                    </div>
+                    <input type="hidden" name="eeg-FORM" value="true" />
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-link closerer">Close</button>
+            <input class="btn btn-primary" type="submit" form="eeg-Form" value="Save" />
+        </div>
+    </div>
+</div>
+
+<div id="modalog_ne" class="modal">
+    <div class="modal-overlay closerer"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <button class="btn btn-clear closerer float-right"></button>
+            <div class="modal-title">Create new Event</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <form id="ne-Form" action="/e/{EVENTGROUP_TITLE}" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label class="form-label" for="ne_title">Title</label>
+                        <input class="form-input" type="text" name="ne_title" placeholder="Title" required />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ne_desc">Description</label>
+                        <textarea class="form-input" name="ne_desc" placeholder="Description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ne_maxents">Max Entries</label>
+                        <input class="form-input" type="number" name="ne_maxents" placeholder="Number" required />
+                    </div>
+                    <input type="hidden" name="ne-FORM" value="true" />
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-link closerer">Close</button>
+            <input class="btn btn-primary" type="submit" form="ne-Form" value="Create Event" />
+        </div>
+    </div>
+</div>
+
+<div id="modalog_vm" class="modal">
+    <div class="modal-overlay closerer"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <button class="btn btn-clear closerer float-right"></button>
+            <div class="modal-title">Missing Users</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                {MISSING_USERSLIST}
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-link closerer">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.modalog_btn').on('click', function() {
+            $('.modal').removeClass('active');
+            $('#modalog_' + $(this).attr('target-modal')).toggleClass('active');
+        });
+        $('.modal').find('.closerer').on('click', function() {
+            $('.modal').removeClass('active');
+        });
+
+
+
+        setTimeout(function() {
+            var gUV = getUrlVars();
+            var a_AS = gUV['AS'] || '';
+            var aL_AS = {
+                'S': {
+                    TEXT: 'Successfully',
+                    NEXT: {
+                        '_': {
+                            TEXT: ' ',
+                            NEXT: {
+                                'n': {
+                                    TEXT: 'created new ',
+                                    NEXT: {
+                                        'e': {
+                                            TEXT: 'Event',
+                                            NEXT: {
+                                                'g': {
+                                                    TEXT: 'group'
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                'e': {
+                                    TEXT: 'edited ',
+                                    NEXT: {
+                                        'e': {
+                                            TEXT: 'Event',
+                                            NEXT: {
+                                                'g': {
+                                                    TEXT: 'group'
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'F': {
+                    TEXT: 'Failed',
+                    NEXT: {
+                        '_': {
+                            TEXT: ' ',
+                            NEXT: {
+                                'n': {
+                                    TEXT: 'creating new ',
+                                    NEXT: {
+                                        'e': {
+                                            TEXT: 'Event',
+                                            NEXT: {
+                                                'g': {
+                                                    TEXT: 'group'
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                'e': {
+                                    TEXT: 'editing ',
+                                    NEXT: {
+                                        'e': {
+                                            TEXT: 'Event',
+                                            NEXT: {
+                                                'g': {
+                                                    TEXT: 'group'
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            if ((a_AS[0] === 'S' || a_AS[0] === 'F') && a_AS[1] === '_') {
+                // console.log(a_AS);
+                var str = '';
+                var LyB = '';
+                for (var x in a_AS) {
+                    var y = a_AS[x];
+                    // console.log(y, eval('aL_AS' + LyB));
+                    if (eval('aL_AS' + LyB + '.hasOwnProperty(y)')) {
+                        // console.log(eval('aL_AS' + LyB + '["' + y + '"]'));
+                        // console.log(eval('aL_AS' + LyB + '["' + y + '"].TEXT'));
+
+                        str += eval('aL_AS' + LyB + '["' + y + '"].TEXT') || '';
+                    }
+                    LyB += '["' + y + '"].NEXT';
+                }
+                // console.log(str);
+                CopyToast(str, (a_AS[0] === 'S') ? 'toast-success' : (a_AS[0] === 'F') ? 'toast-danger' : '');
+            }
+        }, 150);
+    });
+</script>

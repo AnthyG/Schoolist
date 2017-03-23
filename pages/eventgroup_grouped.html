@@ -1,0 +1,24 @@
+<div class="card light-shadow mb-5 collapse-card">
+    <div class="card-header">
+        <h3 class="card-title2">
+            <span class="card-collapser hand" collaps="blendout">
+                <span class="mdi collaps-icon user-select-none float-right" style="font-size: inherit; position: relative; top: 0.4rem;">expand_more</span>
+            </span>
+            <a href="/e/{EVENTGROUP_TITLE}" class="user-select-none"><span class="mdi" style="font-size: inherit; position: relative; top: .4rem;"><!--all_out check_box_outline_blank-->open_in_new</span></a>
+            <span class="card-collapser hand" collaps="blendout">
+                <span style="cursor: text; word-break: break-word;">{EVENTGROUP_TITLE}</span> <small><small style="cursor: text;">{TILL_DATE}</small></small>
+            </span>
+            <small class="user-select-none" style="cursor: default;"><small>{EGSTATE}</small></small>
+        </h3>
+        <h6 class="card-meta blendout" style="display: none;">Available for: {SELECTED_CLASSES}</h6>
+    </div>
+    <div class="blendout" style="display: none;">
+        <div class="card-body">
+            <h4 style="margin-top: 0px;">Description</h4>
+            <p>{DESCRIPTION}</p>
+        </div>
+        <!--<div class="card-footer">
+
+        </div>-->
+    </div>
+</div>

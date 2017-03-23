@@ -1,0 +1,380 @@
+{NAVBAR{{NAVBARLEFT_LINK{/}/NAVBARLEFT_LINK}{NAVBARLEFT_ICON{chevron_left}/NAVBARLEFT_ICON}{NAVBAR_LINKS{}/NAVBAR_LINKS}}/NAVBAR}
+
+<div class="container grid-960">
+    <div class="container shadow mb-10">
+        <h2 style="padding-top: .5rem;">
+            <select class="form-select select-lg" id="list_selector">
+                {LIST_OPTIONS}
+            </select>
+        </h2>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <input class="form-input" type="search" name="search" placeholder="Search" />
+            </div>
+            <div class="form-group">
+                <div class="col-6">
+                    <div id="AC_countries" class="form-autocomplete">
+                        <!-- autocomplete input container -->
+                        <div class="form-autocomplete-input">
+                            <!-- autocomplete chips -->
+                            <!-- autocomplete real input box -->
+                            <input class="form-input" type="text" placeholder="Country" />
+                            <input id="I_countries" type="hidden" name="countries" />
+                        </div>
+                        <!-- autocomplete suggestion list -->
+                        <ul class="menu">
+                            <!-- menu list chips -->
+                            <li class="menu-item" value="USA">
+                                <a href="#">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-icon">
+                                            <span class="avatar flag-icon-background flag-icon-us"></span>
+                                        </div>
+                                        <div class="tile-content">
+                                            United States of America
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="menu-item" value="Spain">
+                                <a href="#">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-icon">
+                                            <span class="avatar flag-icon-background flag-icon-es"></span>
+                                        </div>
+                                        <div class="tile-content">
+                                            Spain
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="menu-item" value="France">
+                                <a href="#">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-icon">
+                                            <span class="avatar flag-icon-background flag-icon-fr"></span>
+                                        </div>
+                                        <div class="tile-content">
+                                            France
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-6">
+                    <div class="form-autocomplete">
+                        <!-- autocomplete input container -->
+                        <div class="form-autocomplete-input">
+                            <!-- autocomplete chips -->
+                            <!-- autocomplete real input box -->
+                            <input class="form-input" type="text" placeholder="Language" />
+                        </div>
+                        <!-- autocomplete suggestion list -->
+                        <ul class="menu">
+                            <!-- menu list chips -->
+                            <li class="menu-item" value="English">
+                                <a href="#">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-icon">
+                                            <span class="avatar flag-icon-background flag-icon-gb"></span>
+                                        </div>
+                                        <div class="tile-content">
+                                            English
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="menu-item" value="Spanish">
+                                <a href="#">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-icon">
+                                            <span class="avatar flag-icon-background flag-icon-es"></span>
+                                        </div>
+                                        <div class="tile-content">
+                                            Spanish
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="menu-item" value="French">
+                                <a href="#">
+                                    <div class="tile tile-centered">
+                                        <div class="tile-icon">
+                                            <span class="avatar flag-icon-background flag-icon-fr"></span>
+                                        </div>
+                                        <div class="tile-content">
+                                            French
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Go!" />
+        </form>
+    </div>
+    <div id="listitemview_HTML" style="display: none;">
+        {LISTITEMVIEW_HTML}
+    </div>
+    <div class="card-list" id="Listitemlist">
+        <!--{LISTITEMLIST}-->
+    </div>
+</div>
+<script>
+    function getDocHeight() {
+        var D = document;
+        return Math.max(
+            D.body.scrollHeight, D.documentElement.scrollHeight,
+            D.body.offsetHeight, D.documentElement.offsetHeight,
+            D.body.clientHeight, D.documentElement.clientHeight
+        );
+    }
+
+    var sv = store.get('LISTITEMLIST');
+    var LISTITEMLIST = (sv ? sv : {});
+    // var LISTITEMLIST = JSON.parse(decodeURIComponent('{LISTITEMLIST_JSON}')) || {};
+    // var LISTITEMLISTc = parseInt("{INITIALCOUNT}") || 0;
+
+    function autocompleteHin(dis, fac_iI, fac_m, dis_mi) {
+        // console.log(fac_iI, dis_mi);
+        dis_mi.on('click', function() {
+            var content = dis_mi.find('.tile-content').html();
+            var avatar = dis_mi.find('.tile-icon').has('.avatar').html() || '';
+            var value = dis_mi.attr('value');
+
+            var n_dis_c = $('<div class="chip" value="' + value + '">' + avatar + '' + content + '<button class="btn btn-clear"></button></div>').insertBefore(fac_iI);
+            dis_mi.remove();
+
+            dis.trigger('AC_Hin', [value, n_dis_c, dis_mi]);
+
+            autocompleteSearch(fac_iI, n_dis_c);
+
+            autocompleteHer(dis, fac_m, fac_iI, n_dis_c);
+        });
+    }
+
+    function autocompleteHer(dis, fac_m, fac_iI, dis_c) {
+        // console.log(fac_m, dis_c);
+        dis_c.find('.btn.btn-clear').on('click', function() {
+            var content = dis_c.text();
+            var avatar = dis_c.find('.avatar')[0] || '';
+            var value = dis_c.attr('value');
+
+            if (avatar !== '') {
+                avatar = avatar.outerHTML;
+                avatar = '<div class="tile-icon">' + avatar + '</div>';
+            }
+
+            var n_dis_mi = $('<li class="menu-item" value="' + value + '"><a href="#"><div class="tile tile-centered">' + avatar + '<div class="tile-content">' + content + '</div></div></a></li>').appendTo(fac_m);
+            dis_c.remove();
+
+            dis.trigger('AC_Her', [value, n_dis_mi, dis_c]);
+
+            autocompleteSearch(fac_iI, n_dis_mi);
+
+            autocompleteHin(dis, fac_iI, fac_m, n_dis_mi);
+        });
+    }
+
+    function autocompleteSearch(fac_iI, dis_mi) {
+        var s = fac_iI.val().toLowerCase();
+        var text = dis_mi.find('.tile-content').text().toLowerCase();
+        if (text.search(s) === -1) {
+            dis_mi.hide();
+        } else {
+            dis_mi.show();
+        }
+    }
+
+    function autocompleteBinder() {
+        $(".form-autocomplete").each(function(pElX, pEl) {
+            (function(dis) {
+                var fac_i = dis.find('.form-autocomplete-input');
+                var fac_iI = fac_i.find('.form-input');
+
+                var fac_m = dis.find('.menu');
+
+                // console.log(dis, fac_i, fac_iI, fac_m);
+
+                fac_iI.on('focusin', function() {
+                    dis.addClass('active');
+                });
+                fac_iI.on('focusout', function() {
+                    dis.removeClass('active');
+                });
+
+                fac_iI.on('keyup', function() {
+                    var searchables = fac_m.find('.menu-item');
+
+                    searchables.each(function(miElX, miElY) {
+                        autocompleteSearch(fac_iI, $(miElY));
+                    });
+                });
+
+                fac_m.find('.menu-item').each(function(miElX, miElY) {
+                    autocompleteHin(dis, fac_iI, fac_m, $(miElY));
+                });
+                fac_i.find('.chip').each(function(cElX, cElY) {
+                    autocompleteHer(dis, fac_m, fac_iI, $(cElY));
+                });
+            })($(pEl));
+        });
+    }
+
+    function populateListItemView(item) {
+        var html = $("#listitemview_HTML").html();
+
+        var languages_HTML = '';
+        item.languages.forEach(function(l) {
+            languages_HTML += '<a class="" href="?language=' + l + '">' + l + '</a> ';
+        });
+
+        var what_HTML = '<ul>';
+        item.what.forEach(function(w) {
+            what_HTML += '<li><a class="" href="?what=' + w + '">' + w + '</a></li>';
+        });
+        what_HTML += '</ul>';
+
+        html = html
+            .replace(/\{ITEM_TITLE\}/gm, item.title)
+            .replace(/\{ITEM_ZIP\}/gm, item.zip)
+            .replace(/\{ITEM_PLACE\}/gm, item.place)
+            .replace(/\{ITEM_COUNTRY\}/gm, item.country)
+            .replace(/\{ITEM_TYPE\}/gm, item.type)
+            .replace(/\{ITEM_WEBSITE\}/gm, item.website)
+            .replace(/\{ITEM_PHONE\}/gm, item.phone)
+            .replace(/\{ITEM_MOBILE\}/gm, item.mobile)
+            .replace(/\{ITEM_EMAIL\}/gm, item.email)
+            .replace(/\{ITEM_WHO\}/gm, item.who)
+            .replace(/\{ITEM_WHAT\}/gm, what_HTML)
+            .replace(/\{ITEM_LANGUAGES\}/gm, languages_HTML);
+        var $obj = $(html).appendTo('#Listitemlist');
+
+        cardCollapsBinder($obj);
+
+        return $obj;
+    }
+
+    function cardCollapsBinder(el) {
+        var el = el || '.collapse-card';
+        el = $(el);
+        el.find('.card-header>*>.card-collapser').on('click', function(e) {
+            $(this).parent('*').parent('.card-header').parent('.collapse-card').find('.' + $(this).attr('collaps')).animate({
+                opacity: "toggle",
+                height: "toggle"
+            }, 150, 'swing');
+            var doAr = 'expand_less',
+                upAr = 'expand_more';
+            if ($(this).children('.collaps-icon').html() === doAr) {
+                $(this).children('.collaps-icon').html(upAr);
+            } else {
+                $(this).children('.collaps-icon').html(doAr);
+            }
+        });
+    }
+
+    function getMoreListItems(from) {
+        var from = (typeof from === 'number' ? from : Object.keys(LISTITEMLIST).length);
+        $.get('/l/AiA/get/' + from, function(data, status) {
+            console.log(status, data);
+            if (status === "success" && data !== "No more items!") {
+                var count = 0;
+                for (var itemX in data) {
+                    var itemY = data[itemX];
+                    if (itemY) {
+                        populateListItemView(itemY);
+                        LISTITEMLIST[itemX] = itemY;
+                        count++;
+                    }
+                }
+
+                if (count > 0) {
+                    // $(data["HTML"]).appendTo($('#Listitemlist'));
+                    // LISTITEMLISTc += data["count"];
+                    store.set('LISTITEMLIST', LISTITEMLIST);
+                    if (from !== 0) {
+                        CopyToast('Loaded ' + count + ' more items!', 'toast-success');
+                    }
+                } else {
+                    CopyToast('There are no new items!');
+                }
+            } else {
+                CopyToast('Failed receiving more items :/ (Statuscode: ' + status + ')', 'toast-danger');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $('#list_selector').on('change', function() {
+            window.location.replace("/l/" + $(this).val());
+        });
+        $('#list_selector').val('{CURRENT_LIST}');
+
+        autocompleteBinder();
+
+        if (Object.keys(LISTITEMLIST).length < 1) {
+            getMoreListItems();
+        }
+        for (var itemX in LISTITEMLIST) {
+            var itemY = LISTITEMLIST[itemX];
+            populateListItemView(itemY);
+        }
+
+        $('#AC_countries').on('AC_Hin', function(e, value, isthis, wasthis) {
+            // console.log("AC_Hin", value, isthis, wasthis);
+            var nval = $('#I_countries').val().split(',');
+
+            nval.push(value);
+            console.log(nval);
+
+            var foundone = false;
+            $('#Listitemlist').find('.collapse-card [sCountries]').parents('.collapse-card').hide();
+            for (var vX in nval) {
+                var vY = nval[vX];
+                if (vY) {
+                    foundone = $('#Listitemlist').find('.collapse-card [sCountries="' + vY + '"]').parents('.collapse-card').show()[0] ? true : foundone;
+                }
+            }
+            if (!foundone) {
+                CopyToast('No items fit to the applied filters!', 'toast-danger');
+                // $('#Listitemlist').find('.collapse-card [sCountries]').parents('.collapse-card').show();
+            }
+
+            $('#I_countries').val(nval.join(','));
+        });
+        $('#AC_countries').on('AC_Her', function(e, value, isthis, wasthis) {
+            // console.log("AC_Her", value, isthis, wasthis);
+            var nval = $('#I_countries').val().split(',');
+
+            nval.splice(nval.indexOf(value), 1);
+            console.log(nval);
+
+            var foundone = false;
+            $('#Listitemlist').find('.collapse-card [sCountries]').parents('.collapse-card').hide();
+            for (var vX in nval) {
+                var vY = nval[vX];
+                if (vY) {
+                    foundone = $('#Listitemlist').find('.collapse-card [sCountries="' + vY + '"]').parents('.collapse-card').show()[0] ? true : foundone;
+                }
+            }
+            if (!foundone) {
+                CopyToast('No items fit to the applied filters!', 'toast-danger');
+                // $('#Listitemlist').find('.collapse-card [sCountries]').parents('.collapse-card').show();
+            }
+
+            $('#I_countries').val(nval.join(','));
+        });
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= getDocHeight()) {
+                // console.log("Scrolled to bottom!");
+                getMoreListItems();
+            }
+        });
+    });
+</script>

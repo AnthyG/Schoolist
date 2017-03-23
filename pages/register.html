@@ -1,0 +1,53 @@
+<!--<svg id='logs' style="width: 100%; height: 200px; background-color: black;"></svg>-->
+<div class="container grid-960">
+    <h1>Schoolist</h1>
+    <h3>Register</h3>
+    <div class="columns">
+        <div class="column col-6 col-xs-12">
+            <form id="LOGIN-Form" action="/register" method="POST" enctype="application/x-www-form-urlencoded">
+                <div class="form-group">
+                    <label class="form-label" for="user_class">Class</label>
+                    <select class="form-select" name="user_class">
+                        {USER_CLASS_OPTIONS}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="name">Name</label>
+                    <div class="input-group" name="name">
+                        <input id="forename" class="form-input" name="forename" type="text" placeholder="Forename" />
+                        <input id="surname" class="form-input" name="surname" type="text" placeholder="Surname" />
+                    </div>
+                </div>
+                <div class="form-group disabled">
+                    <label class="form-label" for="user_name">Username</label>
+                    <input id="user_name" class="form-input" name="user_name" type="text" placeholder="Enter Fore-& Surname" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="user_pass">Password</label>
+                    <input class="form-input" name="user_pass" type="password" placeholder="Password" />
+                </div>
+                <input class="btn btn-primary" value="Register >" type="submit" />
+            </form>
+            <br>
+            <p>Already got an Account? <a href="/">Login here</a></p>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        var $name_f = $('#forename'),
+            $name_s = $('#surname'),
+            $name_u = $('#user_name');
+
+        function setUserName() {
+            var f = $name_f.val();
+            var s = $name_s.val();
+            var u = s + ', ' + f;
+            var able2 = u.match(/(?:(.*), ((.).*))/);
+            var set2 = able2[3].toLowerCase() + able2[1].toLowerCase();
+            $name_u.val(set2);
+        }
+        $name_f.on('change', setUserName);
+        $name_s.on('change', setUserName);
+    });
+</script>
