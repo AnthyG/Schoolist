@@ -1,0 +1,23 @@
+{
+    "DB_path": "DB/",
+    "lang": "DE",
+    "school_name": "ESBZ",
+    "theme": {
+        "body-bg": "",
+        "body-font-color": "",
+        "core-color": "",
+        "core-dark-color": "",
+        "core-light-color": "",
+        "core-meta-color": "",
+        "core-link-color": "",
+        "core-border-color": "",
+        "core-empty-bg": "",
+        "control-color": "",
+        "control-color-success": "",
+        "control-color-info": "",
+        "control-color-warning": "",
+        "control-color-danger": ""
+    },
+    "port": 3001,
+    "sport": 3441
+}

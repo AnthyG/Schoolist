@@ -1,0 +1,25 @@
+{
+    "name": "schoolist",
+    "version": "0.0.7",
+    "description": "The replacement for long paper entry lists in school!",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index5.js"
+    },
+    "author": "AnthyG",
+    "private": true,
+    "license": "ISC",
+    "dependencies": {
+        "compression": "^1.6.2",
+        "express": "^4.10.2",
+        "express-session": "^1.14.2",
+        "http2": "^3.3.6",
+        "serve-static": "^1.11.1",
+        "session-file-store": "^1.0.0"
+    },
+    "devDependencies": {
+        "gulp": "^3.9.1",
+        "gulp-jshint": "^2.0.4",
+        "jshint": "^2.9.4"
+    }
+}

@@ -1,0 +1,11 @@
+S :: ^((.)(.*) (.*))$
+R :: ,\n"$2$4": {\n"pass": "bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA=",\n"name": "$1"\n}
+
+S :: HTML_HEADEr\(\) \+((?:.*))(?:\s)*((?:(?:\s)*(?:\n[^;]*))*)(?:\s)*(?: \+\n(?:\s)*)(.*);$
+R :: HTML_HEADEr()\n.replace(/\\{\\{\\{CNTNTS\\}\\}\\}/gm,$1 + $3$2);
+
+S :: (?:Auswählen (?:(.*), ((.).*))(?:	.*)	(?:Schüler|Lehrer)	Keine Gruppen)
+R :: "\L\3\1\E": { "pass": "bKE9UspwyIPg8LsQHkJaiehiTeUdstI5JZOvaoQRgJA=", "forename": "\2", "surname": "\1" },
+
+S :: (?:(.*), ((.).*))
+R :: \L\3\1
