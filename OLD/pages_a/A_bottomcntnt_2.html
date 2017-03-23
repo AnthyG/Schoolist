@@ -1,0 +1,151 @@
+<div id="modalog_ne" class="modal">
+    <div class="modal-overlay closerer"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <button class="btn btn-clear closerer float-right"></button>
+            <div class="modal-title">Create new Event</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <form id="ne-Form" action="/e/{EVENTGROUP_TITLE}" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label class="form-label" for="ne_title">Title</label>
+                        <input class="form-input" type="text" name="ne_title" placeholder="Title" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ne_desc">Description</label>
+                        <textarea class="form-input" name="ne_desc" placeholder="Description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ne_maxents">Max Entries</label>
+                        <input class="form-input" type="number" name="ne_maxents" placeholder="Number" />
+                    </div>
+                    <input type="hidden" name="ne-FORM" value="true" />
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-link closerer">Close</button>
+            <input class="btn btn-primary" type="submit" form="ne-Form" value="Create Event" />
+        </div>
+    </div>
+</div>
+
+<div id="modalog_eeg" class="modal">
+    <div class="modal-overlay closerer"></div>
+    <div class="modal-container">
+        <div class="modal-header">
+            <button class="btn btn-clear closerer float-right"></button>
+            <div class="modal-title">Edit Eventgroup</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <form id="eeg-Form" action="/e/{EVENTGROUP_TITLE}" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_title">Title</label>
+                        <input class="form-input" type="text" name="eeg_title" placeholder="Title" value="{EVENTGROUP_TITLE}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_desc">Description</label>
+                        <textarea class="form-input" name="eeg_desc" placeholder="Description" rows="3">{DESCRIPTION}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_selected">Comma-Seperated List of selected Classes</label>
+                        <input class="form-input" type="text" name="eeg_selected" placeholder="Class_1, Class_2,.." value="{SELECTED_CLASSES}" />
+                        <!--
+                        <label class="form-label" for="eeg_selected">Selected Classes</label>
+                        <div name="eeg_selected" class="form-autocomplete">
+                            <div class="form-autocomplete-input">
+                                <div class="chip-sm">
+                                    <span class="chip-name">Tony Stark</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Thor Odinson</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Steve Rogers</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Bruce Banner</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Natasha Romanoff</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <input class="form-input" type="text" placeholder="Enter Class-name here">
+                            </div>
+                        </div>
+                        <label class="form-label" for="eeg_available">Available Classes</label>
+                        <div name="eeg_available" class="form-autocomplete">
+                            <div class="form-autocomplete-input">
+                                <div class="chip-sm">
+                                    <span class="chip-name">Tony Stark</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Thor Odinson</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Steve Rogers</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Bruce Banner</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                                <div class="chip-sm">
+                                    <span class="chip-name">Natasha Romanoff</span>
+                                    <button class="btn btn-clear"></button>
+                                </div>
+                            </div>
+                    </div>-->
+                    </div>
+                    <!--<div class="form-group">
+                        <label class="form-switch">
+                            <input name="eeg_hideit" type="checkbox" />
+                            <i class="form-icon"></i> Hide this
+                        </label>
+                    </div>-->
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_tdate">The Date of when the Eventgroup closes entries</label>
+                        <input class="form-input" type="date" name="eeg_tdate" value="{TILL_DATE}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="eeg_maxeents">Max Event-Entries</label>
+                        <input class="form-input" type="number" name="eeg_maxeents" placeholder="Number" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-switch">
+                            <input name="eeg_hideit" type="checkbox" value="{EVENTGROUP_HIDDEN}" />
+                            <i class="form-icon"></i> Hide this
+                        </label>
+                    </div>
+                    <input type="hidden" name="eeg-FORM" value="true" />
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-link closerer">Close</button>
+            <input class="btn btn-primary" type="submit" form="eeg-Form" value="Save" />
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('.ne_btn').on('click', function() {
+            $('#modalog_ne').toggleClass('active');
+        });
+        $('.eeg_btn').on('click', function() {
+            $('#modalog_eeg').toggleClass('active');
+        });
+        $('.modal').find('.closerer').on('click', function() {
+            $('.modal').removeClass('active');
+        });
+    });
+</script>

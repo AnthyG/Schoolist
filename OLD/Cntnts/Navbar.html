@@ -1,0 +1,43 @@
+<div style="height: 52px;"></div>
+<header id="NAVBAR" class="navbar fixed inverted shadow">
+    <!--<div class="navbar inverted container grid-960">-->
+    <section class="navbar-section">
+        <a href="{NAVBARLEFT_LINK}" class="navbar-brand">
+            <span class="icon mdi">{NAVBARLEFT_ICON}</span> Schoolist
+        </a>
+    </section>
+    <section class="navbar-section hide-T hide">
+        {NAVBAR_LINKS}
+    </section>
+    <section class="navbar-section hide-T hide">
+        <!--<a class="btn btn-primary" href="?logout=true">Logout, {USER_NAME} {FROM_TEXT}</a>-->
+        <a class="btn btn-primary" href="?logout=true">Logout</a>
+    </section>
+    <section class="navbar-section .hide show-T">
+        <div class="dropdown">
+            <!-- basic dropdown button -->
+            <button class="btn btn-primary dropdown-toggle" tabindex="0">
+                <span class="mdi">menu</span>
+                <!--<figure class="avatar avatar-sm" data-initial="XY" style="background-color: #5764c6;"></figure>-->
+            </button>
+            <!-- menu component -->
+            <ul class="menu menu-right">
+                <li class="menu-item">Hi, {USER_FORENAME} :)</li>
+                {NAVBAR_LINKS_LI}
+                <li class="divider"></li>
+                <li class="menu-item"><a href="?logout=true">Logout</a></li>
+                <!--<li class="menu-item">
+                    <a href="#">Item</a>
+                </li>-->
+            </ul>
+        </div>
+    </section>
+    <!--</div>-->
+</header>
+<!--<div class="container grid-960 mt-10">
+    <div class="btn-group btn-group-block float-right">
+        {A_topcntnt}
+        <a class="btn" href="?logout=true">Logout, {USER_NAME} {FROM_TEXT}</a>
+    </div>
+</div>-->
+<!--<svg id='logs' style="width: 100%; height: 200px; background-color: black;"></svg>-->

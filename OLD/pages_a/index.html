@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Schoolist Admin</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Schoolist Admin</h1>
+        <form action="/login" method="POST">
+            <select name="user_class">
+                <option>SoWi-Kurs 1</option>
+                <option>SoWi-Kurs 2</option>
+            </select>
+            <input name="user_name" type="text" />
+            <input name="user_pass" type="password" />
+            <input type="hidden" name="tryadmin" val="true" />
+            <input val="Login >" type="submit" />
+        </form>
+        <a href="/">Userpanel</a>
+    </div>
+</body>
+
+<script src="js/d3.v3.min.js"></script>
+<script src="js/shell.js"></script>
+
+<script src="js/cachep2p.security.js"></script>
+<script src="js/cachep2p.min.js"></script>
+<script src="js/init.js"></script>
+
+</html>
