@@ -1,0 +1,29 @@
+{
+    "name": "The Schoolist",
+    "short_name": "Schoolist",
+    "description": "The best list for every School!",
+    "icons": [{
+        "src": "images/favicon-128.png",
+        "type": "image/png",
+        "sizes": "128x128"
+    }, {
+        "src": "images/apple-touch-icon-152x152.png",
+        "type": "image/png",
+        "sizes": "152x152"
+    }, {
+        "src": "images/mstile-144x144.png",
+        "type": "image/png",
+        "sizes": "144x144"
+    }, {
+        "src": "images/Schoolist_192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+    }],
+    "start_url": "/e/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#fff",
+    "theme_color": "#5764c6",
+    "gcm_sender_id": "482941778795"
+}

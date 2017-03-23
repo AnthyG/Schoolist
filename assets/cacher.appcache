@@ -1,0 +1,18 @@
+CACHE MANIFEST
+# Version 31.12.2016 #3
+/css/spectre.min.css
+
+/js/jquery.min.js
+#/js/d3.v3.min.js
+#/js/shell.min.js
+#/js/cachep2p.min.js
+#/js/init.min.js
+
+/images/Schoolist_192.png
+/images/apple-touch-icon-152x152.png
+/images/favicon-128.png
+/images/favicon.ico
+/images/mstile-144x144.png
+
+NETWORK:
+*
