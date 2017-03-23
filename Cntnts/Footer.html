@@ -1,0 +1,99 @@
+<!--<script max-age="2592000" src="/js/d3.v3.min.js"></script>
+<script max-age="2592000" src="/js/shell.min.js"></script>
+
+<script src="/js/cachep2p.security.js"></script>
+<script max-age="2592000" src="/js/cachep2p.min.js"></script>
+<script src="/js/init.min.js"></script>-->
+
+<style>
+    #TOASTAINER {
+        position: fixed;
+        top: 6rem;
+        min-width: 36rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    #TOASTAINER .toast {
+        margin-top: 5px;
+    }
+</style>
+<div id="TOASTAINER">
+    <!--{TOASTS}-->
+</div>
+<div id="COPYTOASTAINER" style="display: none;">
+    <div id="COPYTOAST" class="toast" style="display: none;">
+        <button class="btn btn-clear float-right closerer"></button>
+        <div class="content"></div>
+    </div>
+</div>
+</body>
+<!--
+After creating an option to save entries temporary somewhere.. xD (wheresoever),
+that then, with available internet-connection, get sent to the server,
+the service-worker-activation-script may be uncommented again!
+(And as it only works with HTTPs, it'll be broken anyways, before real deployment...)
+-->
+<script>
+    if ('serviceWorker' in navigator) {
+        console.log("Will the service worker register?");
+        navigator.serviceWorker.register('/service-worker.min.js')
+            // navigator.serviceWorker.register('/OneSignalSDKWorker.js')
+            .then(function(reg) {
+                console.log("Yes, it did.");
+            }).catch(function(err) {
+                console.log("No it didn't. This happened: ", err)
+            });
+    }
+</script>
+<script>
+    function tv(id) {
+        var e = document.getElementById(id);
+        e.classList.toggle('hide');
+    }
+
+    function CopyToast(text, classes, id, timeout) {
+        if (text !== '') {
+            var clone = $('#COPYTOAST').clone();
+            clone.attr('id', id || '');
+            clone.addClass(classes);
+            clone.children('.content').html(text);
+            clone.prependTo($('#TOASTAINER')).slideDown().fadeIn();
+            clone.find('.closerer').on('click', function() {
+                $(this).parent().slideUp().fadeOut(function() {
+                    $(this).remove();
+                });
+            });
+            setTimeout(function() {
+                clone.slideUp().fadeOut(function() {
+                    clone.remove();
+                });
+            }, timeout || 5000);
+        }
+    }
+
+    // var nb = $('#NAVBAR');
+
+    // function NavResizer() {
+    //     if (nb.height() > 52) {
+    //         nb.find('.hide-T').addClass('hide');
+    //         nb.find('.show-T').removeClass('hide');
+    //     } else {
+    //         nb.find('.hide-T').removeClass('hide');
+    //         nb.find('.show-T').addClass('hide');
+    //     }
+    // }
+    $(document).ready(function() {
+        //     $(window).on('resize', function(e) {
+        //         NavResizer();
+        //     });
+        //     NavResizer();
+
+        // modified solution from http://stackoverflow.com/a/34725394/5712160
+        $(window).on("scroll", function() {
+            $(".navbar.fixed").toggleClass("shrink", $(this).scrollTop() > 30);
+        });
+    });
+</script>
+
+</html>
