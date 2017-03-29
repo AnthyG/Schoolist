@@ -1243,6 +1243,120 @@ app.post('/register', function(req, res) {
     }
 });
 
+const ItsLearning = require('itslearning');
+// Login w/ itsLearning-API
+app.post(/^(?:(?:\/|\/e\/(.+))?|(?:(?!\/register|\.js|\.css|\.ico|\.png|\.svg|\.jpg|\.jpeg).)*)$/, function(req, res) {
+    console.log("\n" + Date().toString() + ":\n" + "POST-Login /");
+    if (isLI(req)) {
+        rPP(req, res);
+    } else {
+        // Not logged in
+        var body = '';
+
+        req.on('data', function(data) {
+            body += data;
+
+            // Too much POST data, kill the connection!
+            // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+            if (body.length > 1e6) {
+                req.connection.destroy();
+            }
+        });
+        req.on('end', function() {
+            var post = qs.parse(body);
+
+            // Verify Login
+            if (typeof post.user_class !== 'undefined' && typeof post.user_class !== 'null' &&
+                typeof post.user_name !== 'undefined' && typeof post.user_name !== 'null' &&
+                typeof post.user_pass !== 'undefined' && typeof post.user_pass !== 'null') {
+
+                var unameL = post.user_name.toLowerCase();
+                var tryadmin = post.tryadmin || false;
+                var jsonF_L;
+                if (tryadmin === 'on' || tryadmin === true) {
+                    tryadmin = true;
+                    jsonF_L = jsonF_La;
+                } else {
+                    tryadmin = false;
+                }
+
+
+                ItsLearning.searchOrganisation('Schulstiftung der EKBO')
+                    .then(match => {
+                        console.log();
+                        console.log(`Match #${match[0].id} with value ${match[0].name}`);
+                        if (match[0].name === 'Schulstiftung der EKBO') {
+                            ItsLearning.fetchOrganisation(match[0].id)
+                                .then(organisation => {
+                                    console.log();
+                                    console.log(`Organisation '${organisation.name}' (${organisation.shortName}) has id '${organisation.id}' and url '${organisation.url}'`);
+
+                                    organisation.authenticate(post.user_name, post.user_pass)
+                                        .then(user => {
+                                            user.fetchInfo()
+                                                .then(() => {
+                                                    console.log();
+                                                    console.log("Info..");
+                                                    console.log(`User #${user.id} is ${user.authenticated}, ${user.lastName}, ${user.firstName} Lang ${user.language} Pic: ${user.profileImage} Cal: ${user.calendar}`);
+
+                                                    req.session.loggedin = true;
+                                                    req.session.isadmin = tryadmin;
+                                                    req.session.user_class = post.user_class;
+                                                    req.session.user_name = post.user_name;
+                                                    req.session.name = user.lastName + ', ' + user.firstName;
+                                                    req.session.forename = user.firstName;
+                                                    req.session.surname = user.lastName;
+
+                                                    rPP(req, res);
+                                                }).catch(error => {
+                                                    console.log();
+                                                    console.log("Info..");
+                                                    console.log("ERROR: " + error);
+                                                    res.send(HTML_HEADEr()
+                                                        .replace(/\{\{\{CNTNTS\}\}\}/gm, '<div class="container grid-960">Invalid Credentials: <pre>{' +
+                                                            '\n&nbsp&nbsp&nbsp&nbspuser_class: ' + post.user_class +
+                                                            '\n&nbsp&nbsp&nbsp&nbspuser_name: ' + post.user_name +
+                                                            '\n&nbsp&nbsp&nbsp&nbsptryadmin: ' + tryadmin +
+                                                            '\n}</pre><br><a class="btn btn-primary" href="">Back</a><div>'));
+                                                });
+                                        }).catch(error => {
+                                            console.log();
+                                            console.log("ERROR: " + error);
+                                            res.send(HTML_HEADEr()
+                                                .replace(/\{\{\{CNTNTS\}\}\}/gm, '<div class="container grid-960">Invalid Credentials: <pre>{' +
+                                                    '\n&nbsp&nbsp&nbsp&nbspuser_class: ' + post.user_class +
+                                                    '\n&nbsp&nbsp&nbsp&nbspuser_name: ' + post.user_name +
+                                                    '\n&nbsp&nbsp&nbsp&nbsptryadmin: ' + tryadmin +
+                                                    '\n}</pre><br><a class="btn btn-primary" href="">Back</a><div>'));
+                                        });
+                                }).catch(error => {
+                                    console.log();
+                                    console.log("ERROR: " + error);
+                                    res.send(HTML_HEADEr()
+                                        .replace(/\{\{\{CNTNTS\}\}\}/gm, '<div class="container grid-960">Invalid Credentials: <pre>{' +
+                                            '\n&nbsp&nbsp&nbsp&nbspuser_class: ' + post.user_class +
+                                            '\n&nbsp&nbsp&nbsp&nbspuser_name: ' + post.user_name +
+                                            '\n&nbsp&nbsp&nbsp&nbsptryadmin: ' + tryadmin +
+                                            '\n}</pre><br><a class="btn btn-primary" href="">Back</a><div>'));
+                                });
+                            return false;
+                        }
+                    })
+                    .catch(error => {
+                        console.log();
+                        console.log("ERROR: " + error);
+                        res.send(HTML_HEADEr()
+                            .replace(/\{\{\{CNTNTS\}\}\}/gm, '<div class="container grid-960">Invalid Credentials: <pre>{' +
+                                '\n&nbsp&nbsp&nbsp&nbspuser_class: ' + post.user_class +
+                                '\n&nbsp&nbsp&nbsp&nbspuser_name: ' + post.user_name +
+                                '\n&nbsp&nbsp&nbsp&nbsptryadmin: ' + tryadmin +
+                                '\n}</pre><br><a class="btn btn-primary" href="">Back</a><div>'));
+                    });
+            }
+        });
+    }
+});
+
 // Login
 app.post(/^(?:(?:\/|\/e\/(.+))?|(?:(?!\/register|\.js|\.css|\.ico|\.png|\.svg|\.jpg|\.jpeg).)*)$/, function(req, res) {
     console.log("\n" + Date().toString() + ":\n" + "POST-Login /");
