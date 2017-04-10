@@ -279,7 +279,7 @@
     }
 
     function getMoreListItems(from) {
-        var from = (typeof from === 'number' ? from : Object.keys(LISTITEMLIST).length);
+        var from = (typeof from === 'number' ? from : Object.keys(LISTITEMLIST[CURLIST]).length);
         $.get('/l/AiA/get/' + from, function(data, status) {
             console.log(status, data);
             if (status === "success" && data !== "No more items!") {
@@ -288,7 +288,7 @@
                     var itemY = data[itemX];
                     if (itemY) {
                         populateListItemView(itemY);
-                        LISTITEMLIST[itemX] = itemY;
+                        LISTITEMLIST[CURLIST][itemX] = itemY;
                         count++;
                     }
                 }
@@ -309,21 +309,23 @@
         });
     }
 
+    var CURLIST = '{CURRENT_LIST}';
     $(document).ready(function() {
         $('#list_selector').on('change', function() {
             window.location.replace("/l/" + $(this).val());
+            CURLIST = $(this).val();
+
+            if (Object.keys(LISTITEMLIST[CURLIST]).length < 1) {
+                getMoreListItems();
+            }
+            for (var itemX in LISTITEMLIST[CURLIST]) {
+                var itemY = LISTITEMLIST[CURLIST][itemX];
+                populateListItemView(itemY);
+            }
         });
-        $('#list_selector').val('{CURRENT_LIST}');
+        $('#list_selector').val(CURLIST);
 
         autocompleteBinder();
-
-        if (Object.keys(LISTITEMLIST).length < 1) {
-            getMoreListItems();
-        }
-        for (var itemX in LISTITEMLIST) {
-            var itemY = LISTITEMLIST[itemX];
-            populateListItemView(itemY);
-        }
 
         $('#AC_countries').on('AC_Hin', function(e, value, isthis, wasthis) {
             // console.log("AC_Hin", value, isthis, wasthis);
