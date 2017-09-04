@@ -219,12 +219,14 @@ function HTMLcmbnr(shtml, req) {
 function LP(res) {
     console.log("\n" + Date().toString() + ":\n" + "LOGINPAGE");
     var sHTML = HTML_login();
+
     var class_options_HTML = '';
     var classes_arr = fs.readdirSync(dir + 'DB/Classes');
     classes_arr.forEach(function(C) {
         var C = C.slice(0, -5);
         class_options_HTML += '<option>' + C + '</option>';
     });
+
     res.send(HTML_HEADEr()
         .replace(/\{\{\{CNTNTS\}\}\}/gm, sHTML + HTML_FOOTEr())
         .replace(/\{USER_CLASS_OPTIONS\}/gm, class_options_HTML));
@@ -234,21 +236,30 @@ function LP(res) {
 function RP(res) {
     console.log("\n" + Date().toString() + ":\n" + "REGISTERPAGE");
     var sHTML = HTML_register();
+
     var class_options_HTML = '';
     var classes_arr = fs.readdirSync(dir + 'DB/Classes');
     classes_arr.forEach(function(C) {
         var C = C.slice(0, -5);
         class_options_HTML += '<option>' + C + '</option>';
     });
+
     res.send(HTML_HEADEr()
         .replace(/\{\{\{CNTNTS\}\}\}/gm, sHTML + HTML_FOOTEr())
         .replace(/\{USER_CLASS_OPTIONS\}/gm, class_options_HTML));
     // res.sendFile(dirP + '/index.html');
 }
 
-function PP(req, res) {
-    console.log("\n" + Date().toString() + ":\n" + "PANELPAGE");
+function UP(req, res) {
+    console.log("\n" + Date().toString() + ":\n" + "USERPANEL");
     var sHTML = HTML_userpanel();
+
+    res.send(HTMLcmbnr(sHTML, req));
+}
+
+function ELP(req, res) {
+    console.log("\n" + Date().toString() + ":\n" + "EVENTLISTPAGE");
+    var sHTML = HTML_eventlist();
 
     if (isA(req)) {
         sHTML = sHTML
@@ -301,14 +312,16 @@ function PP(req, res) {
         .replace(/\{EVENTGROUPSLIST\}/gm, eventgroupslist_HTML));
 }
 
-function EPs(req, res) {
-    console.log("\n" + Date().toString() + ":\n" + "EVENTPANELSPAGE");
+function EP(req, res) {
+    console.log("\n" + Date().toString() + ":\n" + "EVENTPANELPAGE");
 
     var psss = [];
     psss[0] = undefined;
     if (typeof req.params[0] !== 'undefined') {
         psss = req.params[0].split('/');
     }
+    psss.shift();
+    console.log(JSON.stringify(psss));
     var fpath = dir + 'DB/Eventgroups/' + psss[0] + '/';
     var fpathG = fpath + 'group.json';
     var fpathE = false;
@@ -788,7 +801,7 @@ function doLogout(req, res) {
 }
 
 // ADMIN-ACTIONS
-app.post(/^(?:(?:\/|\/e\/(.+))?|(?:(?!\/mc(?:.*)?|\/register(?:.*)?).)*)$/, function(req, res, next) { // ^\/e(?:(?:\/)?(.+))?$
+app.post(/^(?:(?:\/e\/(.+))?|(?:(?!\/mc(?:.*)?|\/register(?:.*)?).)*)$/, function(req, res, next) { // ^\/e(?:(?:\/)?(.+))?$
     var psss = [];
     psss[0] = undefined;
     if (typeof req.params[0] !== 'undefined') {
@@ -1046,29 +1059,61 @@ app.get(/^(.*)$/, function(req, res, next) {
     }
 });
 
-// Check if logged in and do actions accordingly
-app.get(/^(?:(?:\/|\/e\/(.+))?|(?:(?!\.js|\.css|\.ico|\.png|\.svg|\.jpg|\.jpeg).)*)$/, function(req, res) {
+app.get(/^(?:\/e\/(.+)?)$/, function(req, res, next) {
     var psss = [];
     psss[0] = undefined;
     if (typeof req.params[0] !== 'undefined') {
         psss = req.params[0].split('/');
     }
-    console.log("\n" + Date().toString() + ":\n" + "GET almost *");
-    // fetchHash(req.protocol + '://' + req.get('host') + req.originalUrl);
-    // console.log("\n" + Date().toString() + ":\n" + req.query);
-    if (isLI(req)) {
-        if (typeof psss[0] !== 'undefined' && typeof psss[0] !== 'null') {
-            console.log("\n" + Date().toString() + ":\n" + "Gf* EPs");
-            EPs(req, res);
+    console.log("\n" + Date().toString() + ":\n" + "GET almost e", JSON.stringify(psss));
+
+    if (typeof psss[0] !== 'undefined' && typeof psss[0] !== 'null' && psss[0] === "e") {
+        if (typeof psss[1] !== 'undefined' && typeof psss[1] !== 'null' && psss[1] !== "") {
+            console.log("\n" + Date().toString() + ":\n" + "Gf* EP");
+            EP(req, res);
         } else {
-            console.log("\n" + Date().toString() + ":\n" + "Gf* PP");
-            PP(req, res);
+            console.log("\n" + Date().toString() + ":\n" + "Gf* ELP");
+            ELP(req, res);
         }
     } else {
-        console.log("\n" + Date().toString() + ":\n" + "Gf* LP");
-        LP(res);
+        next();
     }
 });
+
+app.get(/^\/$/, function(req, res) {
+    console.log("\n" + Date().toString() + ":\n" + "Gf* UP");
+    UP(req, res);
+});
+
+// Check if logged in and do actions accordingly
+// app.get(/^(?:(?:\/|\/e\/(.+))?|(?:(?!\.js|\.css|\.ico|\.png|\.svg|\.jpg|\.jpeg).)*)$/, function(req, res) {
+//     var psss = [];
+//     psss[0] = undefined;
+//     console.log("\n" + Date().toString() + ":\n" + JSON.stringify(req.params));
+//     if (typeof req.params[0] !== 'undefined') {
+//         psss = req.params[0].split('/');
+//     }
+//     console.log("\n" + Date().toString() + ":\n" + "GET almost *", JSON.stringify(psss));
+//     // fetchHash(req.protocol + '://' + req.get('host') + req.originalUrl);
+//     // console.log("\n" + Date().toString() + ":\n" + req.query);
+//     if (isLI(req)) {
+//         if (typeof psss[0] !== 'undefined' && typeof psss[0] !== 'null' && psss[0] === "e") {
+//             if (typeof psss[1] !== 'undefined' && typeof psss[1] !== 'null' && psss[1] !== "") {
+//                 console.log("\n" + Date().toString() + ":\n" + "Gf* EP");
+//                 EP(req, res);
+//             } else {
+//                 console.log("\n" + Date().toString() + ":\n" + "Gf* ELP");
+//                 ELP(req, res);
+//             }
+//         } else {
+//             console.log("\n" + Date().toString() + ":\n" + "Gf* UP");
+//             UP(req, res);
+//         }
+//     } else {
+//         console.log("\n" + Date().toString() + ":\n" + "Gf* LP");
+//         LP(res);
+//     }
+// });
 
 // Show Panelpage
 // app.get(/^\/panel(?:\/|\/(.+))?$/, function(req, res) {
@@ -1081,7 +1126,7 @@ app.get(/^(?:(?:\/|\/e\/(.+))?|(?:(?!\.js|\.css|\.ico|\.png|\.svg|\.jpg|\.jpeg).
 //     if (req.query.logout) {
 //         doLogout(req, res);
 //     } else if (isLI(req) && typeof psss[0] !== 'undefined' && typeof psss[0] !== 'null') {
-//         EPs(req, res);
+//         EP(req, res);
 //     } else if (isLI(req)) {
 //         PP(req, res);
 //     } else {
@@ -1339,6 +1384,7 @@ var HTMLSSs = {
     "A_bottomcntnt_2_3": dirA + 'A_bottomcntnt_2_3',
     "A_bottomcntnt_3": dirA + 'A_bottomcntnt_3',
     "userpanel": dirP + 'userpanel',
+    "eventlist": dirP + 'eventlist',
     "eventgroup_grouped": dirP + 'eventgroup_grouped',
     "groupedeventsview": dirP + 'groupedeventsview',
     "event_grouped": dirP + 'event_grouped'
@@ -1357,6 +1403,7 @@ var HTML_HEADEr,
     HTML_A_bottomcntnt_2_3,
     HTML_A_bottomcntnt_3,
     HTML_userpanel,
+    HTML_eventlist,
     HTML_eventgroup_grouped,
     HTML_groupedeventsview,
     HTML_event_grouped;

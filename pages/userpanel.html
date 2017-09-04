@@ -1,39 +1,9 @@
 {NAVBAR{{NAVBARLEFT_LINK{}/NAVBARLEFT_LINK}{NAVBARLEFT_ICON{filter_list}/NAVBARLEFT_ICON}{NAVBAR_LINKS{ {A_topcntnt} }/NAVBAR_LINKS}}/NAVBAR}
 <div class="container grid-960">
     <div class="container shadow mb-10">
-        <h2 style="padding-top: .5rem;"><b>Eventsgroups</b></h2>
+        <h2 style="padding-top: .5rem;"><b>Dashboard</b></h2>
         <p>Logged in to <b>{FROM_TEXT}</b> as <b>{USER_FORENAME}</b> :)</p>
-    </div>
-    <div class="card-list">
-        {EVENTGROUPSLIST}
     </div>
 </div>
 {A_bottomcntnt}
 <p></p>
-<script>
-    $(document).ready(function() {
-        $('.collapse-card>.card-header>*>.card-collapser').on('click', function(e) {
-            $(this).parent('*').parent('.card-header').parent('.collapse-card').find('.' + $(this).attr('collaps')).animate({
-                opacity: "toggle",
-                height: "toggle"
-            }, 150, 'swing');
-            var doAr = 'expand_less',
-                upAr = 'expand_more';
-            if ($(this).parent('*').find('.collaps-icon').html() === doAr) {
-                $(this).parent('*').find('.collaps-icon').html(upAr);
-            } else {
-                $(this).parent('*').find('.collaps-icon').html(doAr);
-            }
-        });
-        var firstclicks = $('.card-list>.collapse-card>.card-header>.card-title2>.card-collapser');
-        var xS = 0;
-        if (firstclicks.length <= 1) {
-            xS = 1;
-        }
-        for (var x = xS - 1; x >= 0; x--) {
-            if (typeof firstclicks[x] !== 'undefined') {
-                firstclicks[x].click();
-            }
-        }
-    });
-</script>
